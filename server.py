@@ -13,7 +13,7 @@ arousal = 0.0
 dominance = 0.0
 
 dp_model = Net(num_classes=1, in_channels=15000, grid_size=(4, 6))
-dp_model.load_state_dict(torch.load('dp_model_83.pth'))
+dp_model.load_state_dict(torch.load('dp_model.pth'))
 dp_model.eval()
 
 valence_model = Net(num_classes=1, in_channels=8064, grid_size=(4, 6))
