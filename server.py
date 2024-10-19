@@ -12,19 +12,19 @@ valence = 0.0
 arousal = 0.0
 dominance = 0.0
 
-dp_model = Net(num_classes=1, in_channels=15000, grid_size=(4, 6))
+dp_model = Net(num_classes=1, in_channels=2048, grid_size=(4, 6))
 dp_model.load_state_dict(torch.load('dp_model.pth'))
 dp_model.eval()
 
-valence_model = Net(num_classes=1, in_channels=8064, grid_size=(4, 6))
+valence_model = Net(num_classes=1, in_channels=2048, grid_size=(4, 6))
 valence_model.load_state_dict(torch.load('deap_model_valence.pth'))
 valence_model.eval()
 
-arousal_model = Net(num_classes=1, in_channels=8064, grid_size=(4, 6))
+arousal_model = Net(num_classes=1, in_channels=2048, grid_size=(4, 6))
 arousal_model.load_state_dict(torch.load('deap_model_arousal.pth'))
 arousal_model.eval()
 
-dominance_model = Net(num_classes=1, in_channels=8064, grid_size=(4, 6))
+dominance_model = Net(num_classes=1, in_channels=2048, grid_size=(4, 6))
 dominance_model.load_state_dict(torch.load('deap_model_dominance.pth'))
 dominance_model.eval()
 
