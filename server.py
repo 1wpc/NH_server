@@ -1,3 +1,4 @@
+import copy
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import cgi
 import json
@@ -28,6 +29,33 @@ dominance_model = Net(num_classes=1, in_channels=2048, grid_size=(4, 6))
 dominance_model.load_state_dict(torch.load('deap_model_dominance.pth'))
 dominance_model.eval()
 
+def data_convert(data):#8*2048
+    data2d = [] 
+    for i in range(2048):
+        p8 = []
+        for j in range(8):
+            p8.append(data[j][i])
+        image = []
+        hang = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        hang[2] = p8[0]
+        hang[3] = p8[1]
+        image.append(copy.deepcopy(hang))
+        hang = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        hang[1] = p8[2]
+        hang[4] = p8[3]
+        image.append(copy.deepcopy(hang))
+        hang = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        hang[0] = p8[4]
+        hang[5] = p8[5]
+        image.append(copy.deepcopy(hang))
+        hang = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        hang[2] = p8[6]
+        hang[3] = p8[7]
+        image.append(copy.deepcopy(hang))
+        data2d.append(image)
+    return data2d
+
+
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
@@ -56,7 +84,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         print(dict_data)
 
         list_data = dict_data['data']
-        tensor_data = torch.tensor(list_data)
+        tensor_data = torch.tensor(data_convert(list_data))*0.02235
 
         t_dp = dp_model(tensor_data)
         t_valence = valence_model(tensor_data)
